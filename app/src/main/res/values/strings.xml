@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AsteroidRadar</string>
+    <string name="hazard_icon_content_desc">Hazard Icon</string>
+    <string name="nasa_image_of_the_day_content_desc">Nasa Image of the Day</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -9,7 +9,7 @@ import retrofit2.Call
  */
 object LogUtils {
 
-    private const val LOG_TAG = "floored:"
+    private const val LOG_TAG = "asteroid:"
 
     fun debug(msg: String) {
         if (BuildConfig.DEBUG)

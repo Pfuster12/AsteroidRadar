@@ -8,30 +8,27 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_app_bar_height">
+        android:layout_height="@dimen/details_app_bar_height">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/details_image"
-                tools:src="@drawable/placeholder_picture_of_day"
-                android:contentDescription="@string/nasa_image_of_the_day_content_desc"
+                tools:src="@drawable/asteroid_safe"
+                android:contentDescription="@string/not_hazardous_asteroid_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:title="@string/app_name"/>
-
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
@@ -50,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/close_approach_date"
+                    android:textStyle="bold"
                     style="@style/Text"/>
 
                 <TextView
@@ -62,20 +60,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_medium">
+                android:gravity="center">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/absolute_magnitude"
-                    style="@style/Text"/>
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_medium">
 
-                <TextView
-                    android:id="@+id/details_absolute_magnitude"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/absolute_magnitude"
+                        android:textStyle="bold"
+                        style="@style/Text"/>
+
+                    <TextView
+                        android:id="@+id/details_absolute_magnitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Text"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/details_help_button"
+                    android:contentDescription="@string/astronomical_unit_explanation_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Text"/>
+                    android:padding="@dimen/padding_medium"
+                    android:tint="@color/foreground"
+                    android:background="?selectableItemBackground"
+                    android:src="@drawable/ic_help_outline_black_24dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -88,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/estimated_diameter"
+                    android:textStyle="bold"
                     style="@style/Text"/>
 
                 <TextView
@@ -106,7 +123,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/estimated_diameter"
+                    android:text="@string/relative_velocity"
+                    android:textStyle="bold"
                     style="@style/Text"/>
 
                 <TextView
@@ -126,6 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/distance_from_earth"
+                    android:textStyle="bold"
                     style="@style/Text"/>
 
                 <TextView

@@ -2,6 +2,7 @@
 <resources>
     <!-- Main -->
     <dimen name="main_app_bar_height">300dp</dimen>
+    <dimen name="details_app_bar_height">200dp</dimen>
 
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">16dp</dimen>

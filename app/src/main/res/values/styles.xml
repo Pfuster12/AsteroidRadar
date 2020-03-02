@@ -9,7 +9,7 @@
     </style>
 
     <style name="Title" parent="TextAppearance.AppCompat.Title">
-
+        <item name="android:textColor">@color/titleColor</item>
     </style>
 
     <style name="Text" parent="TextAppearance.MaterialComponents.Body1">

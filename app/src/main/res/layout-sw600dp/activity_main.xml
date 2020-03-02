@@ -4,7 +4,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <fragment
+    <FrameLayout
+        android:id="@id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_main_fragment"
         android:name="com.udacity.asteroidradar.main.MainFragment"
         android:layout_width="0dp"
@@ -20,7 +25,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.33"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_detail_fragment"
         android:name="com.udacity.asteroidradar.detail.DetailFragment"
         android:layout_width="0dp"

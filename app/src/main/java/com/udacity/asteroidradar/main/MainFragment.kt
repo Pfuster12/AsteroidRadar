@@ -46,15 +46,27 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
         observeViewModel()
         observePictureOfDay()
 
+        // Fetch feed
+        viewModel.getFeed()
+
+        binding.mainError.setOnClickListener {
+            viewModel.getFeed()
+        }
+
         binding.mainAsteroidFeed.adapter = AsteroidFeedAdapter(context,
             asteroidFeed) { pos ->
-            val fragment = DetailFragment.getInstance(asteroidFeed[pos])
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
-                ?.replace(R.id.main_fragment_container, fragment)
-                ?.addToBackStack(TAG)
-                ?.commit()
+            // select asteroid in view model,
+            viewModel.select(asteroidFeed[pos])
+
+            val isTablet = resources.configuration.smallestScreenWidthDp > 600
+            if (!isTablet) {
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
+                    ?.replace(R.id.fragment_container, DetailFragment())
+                    ?.addToBackStack(TAG)
+                    ?.commit()
+            }
         }
     }
 
@@ -105,6 +117,8 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
         binding.mainImageDay.contentDescription = getString(
             R.string.nasa_picture_of_day_content_description_format,
             data.title)
+
+        binding.mainPicDayTitle.text = data.title
 
         Picasso.with(context)
             .load(data.url)

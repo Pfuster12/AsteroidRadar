@@ -8,13 +8,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_app_bar_height">
+        android:layout_height="@dimen/main_app_bar_height"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
             app:title="@string/app_name"
+            app:expandedTitleGravity="top"
             app:expandedTitleTextAppearance="@style/Title"
             app:collapsedTitleTextAppearance="@style/Title"
             app:contentScrim="@color/colorPrimary">
@@ -33,6 +35,20 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/scrim"
                 app:layout_collapseMode="parallax"/>
+
+            <TextView
+                android:id="@+id/main_pic_day_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Text"
+                tools:text="Picture of the day Title"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:padding="@dimen/padding_small"
+                android:textColor="@color/titleColor"
+                android:gravity="end"
+                android:layout_gravity="bottom"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -68,6 +84,7 @@
         style="@style/Text"
         android:gravity="center"
         android:padding="@dimen/padding_medium"
+        android:background="?selectableItemBackground"
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView

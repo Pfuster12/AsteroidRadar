@@ -1,10 +1,7 @@
 package com.udacity.asteroidradar.main
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.room.Room
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
@@ -39,8 +36,27 @@ class MainViewModel(applicationContext: Context) : ViewModel() {
             viewModelScope
         )
 
-    val asteroidFeed: LiveData<Resource<List<Asteroid>>> = repository.getAsteroidFeed()
+    val asteroidFeed: MediatorLiveData<Resource<List<Asteroid>>> = MediatorLiveData()
+    val selectedAsteroid = MutableLiveData<Asteroid>()
+
     val pictureOfDay: LiveData<Resource<PictureOfDay>> = repository.getPictureOfDay()
+
+    fun select(item: Asteroid) {
+        selectedAsteroid.value = item
+    }
+
+    /**
+     * Fetch asteroid feeds and update live data.
+     */
+    fun getFeed() {
+        val response = repository.getAsteroidFeed()
+
+        asteroidFeed.addSource(response) { newData ->
+            if (asteroidFeed.value != newData) {
+                asteroidFeed.value = newData
+            }
+        }
+    }
 }
 
 class MainViewModelFactory(private val applicationContext: Context?): ViewModelProvider.NewInstanceFactory() {

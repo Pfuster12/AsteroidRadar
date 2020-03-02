@@ -1,19 +1,18 @@
 package com.udacity.asteroidradar
 
+import android.R
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.udacity.asteroidradar.api.WebService
 import com.udacity.asteroidradar.databinding.ActivityMainBinding
 import com.udacity.asteroidradar.main.MainFragment
-import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -34,7 +33,10 @@ class MainActivity : AppCompatActivity() {
             setDownloadTask()
         }
 
-        replaceFragment(MainFragment())
+        val isTablet = resources.configuration.smallestScreenWidthDp > 600
+        if (!isTablet) {
+            replaceFragment(MainFragment())
+        }
     }
 
     /**
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.main_fragment_container, fragment)
+            .replace(binding.fragmentContainer!!.id, fragment)
             .commit()
     }
 }

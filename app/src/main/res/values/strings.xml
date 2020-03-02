@@ -3,13 +3,13 @@
     <string name="non_hazard_icon_content_desc">Non Hazard Icon</string>
     <string name="hazard_icon_content_desc">Hazard Icon</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="close_approach_date">Close Approach Date</string>
     <string name="absolute_magnitude">Absolute Magnitude</string>
     <string name="estimated_diameter">Estimated Diameter</string>
     <string name="distance_from_earth">Distance From Earth</string>
-    <string name="error_loading_feed">Error Loading Feed</string>
+    <string name="error_loading_feed">Error Loading Feed. Tap here to retry!</string>
     <string name="empty_main_feed">Looks like there is no asteroids yet!</string>
+    <string name="empty_details">Select an Asteroid in the list to see its details here.</string>
 
     <string name="help_close_button">Accept</string>
     <string name="astronomical_unit_format">%f au</string>

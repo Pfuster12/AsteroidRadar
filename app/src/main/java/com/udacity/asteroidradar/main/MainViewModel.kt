@@ -9,7 +9,7 @@ import androidx.room.Room
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
-import com.udacity.asteroidradar.api.NASARepository
+import com.udacity.asteroidradar.NASARepository
 import com.udacity.asteroidradar.api.WebService
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.database.PictureDayDatabase
@@ -31,7 +31,8 @@ class MainViewModel(applicationContext: Context) : ViewModel() {
             Room.databaseBuilder(
                 applicationContext,
                 PictureDayDatabase::class.java,
-                "pic-day-db")
+                "pic-day-db"
+            )
                 .fallbackToDestructiveMigration()
                 .build()
                 .pictureDayDatabase(),

@@ -40,7 +40,7 @@ abstract class NetworkResource<T, K>(private val viewModelScope: CoroutineScope)
     abstract fun processResponse(response: K): T
 
     @WorkerThread
-    abstract suspend fun saveToDisk(data: T)
+    abstract suspend fun saveToDisk(data: T): Boolean
 
     private fun launch() {
         viewModelScope.launch {

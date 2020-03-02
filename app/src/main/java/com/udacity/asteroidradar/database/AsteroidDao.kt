@@ -1,10 +1,7 @@
 package com.udacity.asteroidradar.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.udacity.asteroidradar.Asteroid
 
 @Dao
@@ -13,13 +10,13 @@ interface AsteroidDao {
     fun getAll(): LiveData<List<Asteroid>>
 
     @Transaction
-    fun updateData(users: List<Asteroid>) {
+    fun updateData(users: List<Asteroid>): List<Long> {
         deleteAll()
-        insertAll(users)
+        return insertAll(users)
     }
 
-    @Insert
-    fun insertAll(asteroids: List<Asteroid>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(asteroids: List<Asteroid>): List<Long>
 
     @Query("DELETE FROM Asteroid")
     fun deleteAll()

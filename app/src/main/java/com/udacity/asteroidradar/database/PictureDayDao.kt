@@ -12,5 +12,5 @@ interface PictureDayDao {
     fun get(): LiveData<PictureOfDay>
 
     @Insert
-    fun insert(asteroids: PictureOfDay)
+    fun insert(asteroids: PictureOfDay): Long
 }

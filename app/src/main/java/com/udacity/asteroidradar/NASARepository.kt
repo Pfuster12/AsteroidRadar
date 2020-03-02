@@ -1,10 +1,10 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar
 
 import androidx.lifecycle.LiveData
 import com.squareup.moshi.Moshi
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.BuildConfig
-import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.api.WebService
+import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.api.safeExecute
 import com.udacity.asteroidradar.database.AsteroidDao
 import com.udacity.asteroidradar.database.PictureDayDao
 import com.udacity.asteroidradar.utils.*
@@ -46,11 +46,13 @@ class NASARepository(private val webService: WebService,
             override fun processResponse(response: String): List<Asteroid> {
                 val json = JSONObject(response)
 
-                return parseAsteroidsJsonResult(json)
+                return parseAsteroidsJsonResult(
+                    json
+                )
             }
 
-            override suspend fun saveToDisk(data: List<Asteroid>) {
-                return asteroidDao.updateData(data)
+            override suspend fun saveToDisk(data: List<Asteroid>): Boolean {
+                return asteroidDao.updateData(data).isNotEmpty()
             }
         }.asLiveData()
     }
@@ -89,8 +91,8 @@ class NASARepository(private val webService: WebService,
                     PictureOfDay(-1, "image", "", "")
             }
 
-            override suspend fun saveToDisk(data: PictureOfDay) {
-                return pictureDayDao.insert(data)
+            override suspend fun saveToDisk(data: PictureOfDay): Boolean {
+                return pictureDayDao.insert(data) > 0
             }
         }.asLiveData()
     }

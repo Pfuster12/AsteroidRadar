@@ -8,15 +8,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity
-data class Asteroid(val id: Long,
+data class Asteroid(@PrimaryKey val id: Long,
                     val codename: String,
                     val closeApproachDate: String,
                     val absoluteMagnitude: Double,
                     val estimatedDiameter: Double,
                     val relativeVelocity: Double,
                     val distanceFromEarth: Double,
-                    val isPotentiallyHazardous: Boolean) : Parcelable {
-    @IgnoredOnParcel
-    @PrimaryKey(autoGenerate = true)
-    var uid: Long? = null
-}
+                    val isPotentiallyHazardous: Boolean) : Parcelable

@@ -14,6 +14,9 @@ import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
+/**
+ * Downloads and caches the NASA NEO Feed.
+ */
 class DownloadWorker(appContext: Context, workerParams: WorkerParameters)
     : Worker(appContext, workerParams) {
 
@@ -40,7 +43,10 @@ class DownloadWorker(appContext: Context, workerParams: WorkerParameters)
          )
 
         try {
-            asteroidDao.updateData(asteroids)
+            val rows = asteroidDao.updateData(asteroids)
+            if (rows.isEmpty()) {
+                return Result.failure()
+            }
         } catch (e: SQLiteConstraintException) {
             return Result.failure()
         }

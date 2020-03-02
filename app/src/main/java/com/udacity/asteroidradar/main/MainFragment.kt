@@ -51,6 +51,7 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
             val fragment = DetailFragment.getInstance(asteroidFeed[pos])
             activity?.supportFragmentManager
                 ?.beginTransaction()
+                ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
                 ?.replace(R.id.main_fragment_container, fragment)
                 ?.addToBackStack(TAG)
                 ?.commit()
@@ -93,8 +94,9 @@ class MainFragment : Fragment(), ResourceBoundUI<List<Asteroid>> {
 
                     bindPictureOfDay(resource.data)
                 }
-                Status.LOADING -> loading()
-                Status.ERROR -> error()
+                Status.LOADING -> {}
+                Status.ERROR -> {
+                }
             }
         })
     }

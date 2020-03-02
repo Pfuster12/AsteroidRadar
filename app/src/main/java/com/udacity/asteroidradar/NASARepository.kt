@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.Moshi
 import com.udacity.asteroidradar.api.WebService
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
@@ -10,6 +11,7 @@ import com.udacity.asteroidradar.database.PictureDayDao
 import com.udacity.asteroidradar.utils.*
 import kotlinx.coroutines.CoroutineScope
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
 /**
  * Single source of truth for network and cached NASA API data.
@@ -25,7 +27,7 @@ class NASARepository(private val webService: WebService,
     fun getAsteroidFeed(): LiveData<Resource<List<Asteroid>>> {
         return object : NetworkResource<List<Asteroid>, String>(viewModelScope) {
             override suspend fun loadFromDisk(): LiveData<List<Asteroid>> {
-                return asteroidDao.getAll()
+                return MutableLiveData(asteroidDao.getAll())
             }
 
             override fun shouldFetch(diskResponse: List<Asteroid>?): Boolean {
@@ -46,13 +48,12 @@ class NASARepository(private val webService: WebService,
             override fun processResponse(response: String): List<Asteroid> {
                 val json = JSONObject(response)
 
-                return parseAsteroidsJsonResult(
-                    json
-                )
+                return parseAsteroidsJsonResult(json)
             }
 
             override suspend fun saveToDisk(data: List<Asteroid>): Boolean {
-                return asteroidDao.updateData(data).isNotEmpty()
+                val ids = asteroidDao.updateData(data)
+                return ids.isNotEmpty()
             }
         }.asLiveData()
     }
@@ -63,11 +64,15 @@ class NASARepository(private val webService: WebService,
     fun getPictureOfDay(): LiveData<Resource<PictureOfDay>> {
         return object : NetworkResource<PictureOfDay, String>(viewModelScope) {
             override suspend fun loadFromDisk(): LiveData<PictureOfDay> {
-                return pictureDayDao.get()
+                return MutableLiveData(pictureDayDao.get())
             }
 
             override fun shouldFetch(diskResponse: PictureOfDay?): Boolean {
-                return true
+                // Fetch if 24hr timestamp has expired
+                return diskResponse == null
+                        || diskResponse.timestamp +
+                        TimeUnit.MILLISECONDS
+                            .convert(24L, TimeUnit.HOURS) < System.currentTimeMillis()
             }
 
             override suspend fun fetchData(): Response<String> {
@@ -82,17 +87,19 @@ class NASARepository(private val webService: WebService,
             }
 
             override fun processResponse(response: String): PictureOfDay {
-                return Moshi.Builder()
+                val pic = Moshi.Builder()
                     .build()
                     .adapter(PictureOfDay::class.java)
                     .fromJson(response)
                     ?:
                     // Return an empty picture
                     PictureOfDay(-1, "image", "", "")
+                pic.timestamp = System.currentTimeMillis()
+                return pic
             }
 
             override suspend fun saveToDisk(data: PictureOfDay): Boolean {
-                return pictureDayDao.insert(data) > 0
+                return pictureDayDao.updateData(data) > 0
             }
         }.asLiveData()
     }

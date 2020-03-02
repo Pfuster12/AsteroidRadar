@@ -8,4 +8,6 @@ import com.squareup.moshi.Json
 data class PictureOfDay(@PrimaryKey(autoGenerate = true) val uid: Long,
                         @Json(name = "media_type") val mediaType: String?,
                         val title: String?,
-                        val url: String?)
+                        val url: String?) {
+    var timestamp: Long = 0
+}

@@ -7,7 +7,7 @@ import com.udacity.asteroidradar.Asteroid
 @Dao
 interface AsteroidDao {
     @Query("SELECT * FROM Asteroid ORDER BY date(closeApproachDate) ASC")
-    fun getAll(): LiveData<List<Asteroid>>
+    fun getAll(): List<Asteroid>
 
     @Transaction
     fun updateData(users: List<Asteroid>): List<Long> {

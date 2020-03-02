@@ -44,7 +44,7 @@ abstract class NetworkResource<T, K>(private val viewModelScope: CoroutineScope)
 
     private fun launch() {
         viewModelScope.launch {
-            val diskSource = loadFromDisk()
+            val diskSource =  withContext(Dispatchers.IO) {loadFromDisk()}
 
             if (shouldFetch(diskSource.value)) {
                 LogUtils.debug("Disk data is invalid. Fetching from network...")
@@ -69,8 +69,11 @@ abstract class NetworkResource<T, K>(private val viewModelScope: CoroutineScope)
                         withContext(Dispatchers.IO) {
                             saveToDisk(processResponse(response.data))
                         }
+
+                        val diskResponse = withContext(Dispatchers.IO) { loadFromDisk() }
+
                         // add latest disk source and send success,
-                        result.addSource(loadFromDisk()) { newData ->
+                        result.addSource(diskResponse) { newData ->
                             setValue(Resource.success(newData))
                         }
                     }
